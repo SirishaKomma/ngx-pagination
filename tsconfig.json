@@ -6,5 +6,12 @@
 */
 {
   "files": [],
-  "references": []
+  "references": [
+    {
+      "path": "./projects/pagination/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/pagination/tsconfig.spec.json"
+    }
+]
 }
