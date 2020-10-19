@@ -9,17 +9,26 @@ export const DEFAULT_TEMPLATE = `
                          [maxSize]="maxSize"
                          (pageChange)="pageChange.emit($event)"
                          (pageBoundsCorrection)="pageBoundsCorrection.emit($event)">
-    <ul class="ngx-pagination"
-        role="navigation"
-        [attr.aria-label]="screenReaderPaginationLabel"
-        [class.responsive]="responsive"
-        *ngIf="!(autoHide && p.pages.length <= 1)">
+
+                         <div class="ngx-pagination"
+    role="navigation"
+    [attr.aria-label]="screenReaderPaginationLabel"
+    [class.responsive]="responsive"
+    *ngIf="!(autoHide && p.pages.length <= 1)">
+
+         <label
+      >Showing {{ p.getStartIndex() }} - {{ p.getEndIndex() }} of
+      {{ p.getTotalItems() }} entries</label
+    >
+
+
+                         <ul role="navigation" >
         <li class="pagination-previous" [class.disabled]="p.isFirstPage()" *ngIf="directionLinks">
             <a tabindex="0" *ngIf="1 < p.getCurrent()" (keyup.enter)="p.previous()" (click)="p.previous()" [attr.aria-label]="previousLabel + ' ' + screenReaderPageLabel">
-                {{ previousLabel }} <span class="show-for-sr">{{ screenReaderPageLabel }}</span>
+                {{ previousLabel }}
             </a>
             <span *ngIf="p.isFirstPage()">
-                {{ previousLabel }} <span class="show-for-sr">{{ screenReaderPageLabel }}</span>
+                {{ previousLabel }}
             </span>
         </li>
         <li class="small-screen">
@@ -39,25 +48,29 @@ export const DEFAULT_TEMPLATE = `
         </li>
         <li class="pagination-next" [class.disabled]="p.isLastPage()" *ngIf="directionLinks">
             <a tabindex="0" *ngIf="!p.isLastPage()" (keyup.enter)="p.next()" (click)="p.next()" [attr.aria-label]="nextLabel + ' ' + screenReaderPageLabel">
-                 {{ nextLabel }} <span class="show-for-sr">{{ screenReaderPageLabel }}</span>
+                 {{ nextLabel }}
             </a>
             <span *ngIf="p.isLastPage()">
-                 {{ nextLabel }} <span class="show-for-sr">{{ screenReaderPageLabel }}</span>
+                 {{ nextLabel }}
             </span>
         </li>
     </ul>
+    </div>
+
     </pagination-template>
     `;
 
 export const DEFAULT_STYLES = `
 .ngx-pagination {
+  display:flex;
+  justify-content:space-between;
   margin-left: 0;
   margin-bottom: 1rem; }
   .ngx-pagination::before, .ngx-pagination::after {
-    content: ' ';
-    display: table; }
+       display: table; }
   .ngx-pagination::after {
     clear: both; }
+
   .ngx-pagination li {
     -moz-user-select: none;
     -webkit-user-select: none;
