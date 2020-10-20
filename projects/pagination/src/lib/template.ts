@@ -10,11 +10,21 @@ export const DEFAULT_TEMPLATE = `
                          (pageChange)="pageChange.emit($event)"
                          (pageBoundsCorrection)="pageBoundsCorrection.emit($event)">
 
+           <div     *ngIf="!(autoHide && p.pages.length <= 1)">
+
+                         <div class="items-number" *ngIf="isItemsNumber">
+                                         <span style="display: flex" >
+          <label>Show</label> <select [(ngModel)]="p.itemsPerPage"
+            (change)="p.pageSizeChanged($event.target.value)" >
+            <option *ngFor="let pageSizeDefault of p.pageSizes" value="{{pageSizeDefault}}">{{pageSizeDefault}}</option>
+          </select> <label class=" col-md-1 ml-1">entries</label></span>
+            </div>
+
                          <div class="ngx-pagination"
-    role="navigation"
+    role="navigation" *ngIf="!isItemsNumber"
     [attr.aria-label]="screenReaderPaginationLabel"
     [class.responsive]="responsive"
-    *ngIf="!(autoHide && p.pages.length <= 1)">
+>
 
          <label
       >Showing {{ p.getStartIndex() }} - {{ p.getEndIndex() }} of
@@ -56,7 +66,7 @@ export const DEFAULT_TEMPLATE = `
         </li>
     </ul>
     </div>
-
+</div>
     </pagination-template>
     `;
 

@@ -20,21 +20,25 @@ export interface Page {
 })
 export class PaginationDirective {
     @Input() id: string;
-    @Input() maxSize: number = 7;
+  @Input() maxSize = 7;
+
     @Output() pageChange: EventEmitter<number> = new EventEmitter<number>();
     @Output() pageBoundsCorrection: EventEmitter<number> = new EventEmitter<number>();
     pages: Page[] = [];
-
+  pageSizes: any[] = [];
     private changeSub: Subscription;
 
     constructor(private service: PaginationService,
                 private changeDetectorRef: ChangeDetectorRef) {
         this.changeSub = this.service.change
             .subscribe(id => {
-                if (this.id === id) {
-                    this.updatePageLinks();
-                    this.changeDetectorRef.markForCheck();
-                    this.changeDetectorRef.detectChanges();
+              if (this.id === id) {
+
+                                      this.updatePageLinks();
+                                      this.changeDetectorRef.markForCheck();
+                                      this.changeDetectorRef.detectChanges();
+                                      const inst = this.service.getInstance(this.id);
+
                 }
             });
     }
@@ -43,6 +47,12 @@ export class PaginationDirective {
         if (this.id === undefined) {
             this.id = this.service.defaultId();
         }
+        const inst = this.service.getInstance(this.id);
+                                              for (let i = 5; i < inst.totalItems;){
+                                          console.log('inst=',inst)
+                  this.pageSizes.push(i);
+                  i += 5;
+                }
         this.updatePageLinks();
     }
 
@@ -53,7 +63,12 @@ export class PaginationDirective {
     ngOnDestroy() {
         this.changeSub.unsubscribe();
     }
+  pageSizeChanged(event) {
+     const inst = this.service.getInstance(this.id);
+   inst.itemsPerPage=event;
+           this.updatePageLinks();
 
+}
     /**
      * Go to the previous page
      */
@@ -102,7 +117,7 @@ export class PaginationDirective {
      * Returns the last page number
      */
     getLastPage(): number {
-        let inst = this.service.getInstance(this.id);
+        const inst = this.service.getInstance(this.id);
         if (inst.totalItems < 1) {
             // when there are 0 or fewer (an error case) items, there are no "pages" as such,
             // but it makes sense to consider a single, empty page as the last page.
@@ -114,8 +129,16 @@ export class PaginationDirective {
     getTotalItems(): number {
         return this.service.getInstance(this.id).totalItems;
     }
+ getStartIndex(): number {
+  const inst = this.service.getInstance(this.id);
+  return (inst.itemsPerPage * (inst.currentPage - 1)) + 1;
+  }
 
-    private checkValidId() {
+  getEndIndex(): number {
+  const inst = this.service.getInstance(this.id);
+  return (inst.itemsPerPage * inst.currentPage);
+}
+    private checkValidId(): void {
         if (this.service.getInstance(this.id).id == null) {
             console.warn(`PaginationControlsDirective: the specified id "${this.id}" does not match any registered PaginationInstance`);
         }
@@ -127,7 +150,7 @@ export class PaginationDirective {
      * input values changes.
      */
     private updatePageLinks() {
-        let inst = this.service.getInstance(this.id);
+        const inst = this.service.getInstance(this.id);
         const correctedCurrentPage = this.outOfBoundCorrection(inst);
 
         if (correctedCurrentPage !== inst.currentPage) {
@@ -161,7 +184,7 @@ export class PaginationDirective {
     private createPageArray(currentPage: number, itemsPerPage: number, totalItems: number, paginationRange: number): Page[] {
         // paginationRange could be a string if passed from attribute, so cast to number.
         paginationRange = +paginationRange;
-        let pages = [];
+        const pages = [];
         const totalPages = Math.ceil(totalItems / itemsPerPage);
         const halfWay = Math.ceil(paginationRange / 2);
 
@@ -169,21 +192,21 @@ export class PaginationDirective {
         const isEnd = totalPages - halfWay < currentPage;
         const isMiddle = !isStart && !isEnd;
 
-        let ellipsesNeeded = paginationRange < totalPages;
+        const ellipsesNeeded = paginationRange < totalPages;
         let i = 1;
 
         while (i <= totalPages && i <= paginationRange) {
             let label;
-            let pageNumber = this.calculatePageNumber(i, currentPage, paginationRange, totalPages);
-            let openingEllipsesNeeded = (i === 2 && (isMiddle || isEnd));
-            let closingEllipsesNeeded = (i === paginationRange - 1 && (isMiddle || isStart));
+            const pageNumber = this.calculatePageNumber(i, currentPage, paginationRange, totalPages);
+            const openingEllipsesNeeded = (i === 2 && (isMiddle || isEnd));
+            const closingEllipsesNeeded = (i === paginationRange - 1 && (isMiddle || isStart));
             if (ellipsesNeeded && (openingEllipsesNeeded || closingEllipsesNeeded)) {
                 label = '...';
             } else {
                 label = pageNumber;
             }
             pages.push({
-                label: label,
+                label,
                 value: pageNumber
             });
             i ++;
@@ -196,7 +219,7 @@ export class PaginationDirective {
      * figure out what page number corresponds to that position.
      */
     private calculatePageNumber(i: number, currentPage: number, paginationRange: number, totalPages: number) {
-        let halfWay = Math.ceil(paginationRange / 2);
+        const halfWay = Math.ceil(paginationRange / 2);
         if (i === paginationRange) {
             return totalPages;
         } else if (i === 1) {

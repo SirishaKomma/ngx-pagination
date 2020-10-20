@@ -40,8 +40,9 @@ export class PaginationComponent {
     set responsive(value: boolean) {
         this._responsive = coerceToBoolean(value);
     }
-    @Input() previousLabel: string = 'Previous';
-    @Input() nextLabel: string = 'Next';
+    @Input() isItemsNumber=false;
+    @Input() previousLabel: string = '';
+    @Input() nextLabel: string = '';
     @Input() screenReaderPaginationLabel = 'Pagination';
     @Input() screenReaderPageLabel: string = 'page';
     @Input() screenReaderCurrentLabel: string = `You're on page`;
