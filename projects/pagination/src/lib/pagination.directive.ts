@@ -48,7 +48,7 @@ export class PaginationDirective {
             this.id = this.service.defaultId();
         }
         const inst = this.service.getInstance(this.id);
-                                              for (let i = 5; i < inst.totalItems;){
+                                              for (let i = 5; i <= inst.totalItems;){
                                           console.log('inst=',inst)
                   this.pageSizes.push(i);
                   i += 5;
