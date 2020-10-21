@@ -64,8 +64,8 @@ export class PaginationDirective {
         this.changeSub.unsubscribe();
     }
   pageSizeChanged(event) {
-     const inst = this.service.getInstance(this.id);
-   inst.itemsPerPage=event;
+        inst.itemsPerPage = event;
+    this.service.setItemsPerPage(this.id,event);
            this.updatePageLinks();
 
 }
@@ -102,9 +102,9 @@ export class PaginationDirective {
     /**
      * Set the current page number.
      */
-    setCurrent(page: number) {
-        this.pageChange.emit(page);
-    }
+  setCurrent(page: number) {
+       this.pageChange.emit(page);
+       }
 
     /**
      * Get the current page number.
@@ -135,8 +135,14 @@ export class PaginationDirective {
   }
 
   getEndIndex(): number {
-  const inst = this.service.getInstance(this.id);
-  return (inst.itemsPerPage * inst.currentPage);
+    const inst = this.service.getInstance(this.id);
+    const end=(inst.itemsPerPage * inst.currentPage)
+    if (inst.totalItems<end) {
+      return inst.totalItems;
+    }
+    return end;
+
+
 }
     private checkValidId(): void {
         if (this.service.getInstance(this.id).id == null) {
