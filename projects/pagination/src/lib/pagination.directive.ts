@@ -26,6 +26,7 @@ export class PaginationDirective {
     @Output() pageBoundsCorrection: EventEmitter<number> = new EventEmitter<number>();
     pages: Page[] = [];
   pageSizes: any[] = [];
+  itemsPerPage = 5;
     private changeSub: Subscription;
 
     constructor(private service: PaginationService,
@@ -48,11 +49,11 @@ export class PaginationDirective {
             this.id = this.service.defaultId();
         }
         const inst = this.service.getInstance(this.id);
-                                              for (let i = 5; i <= inst.totalItems;){
-                                          console.log('inst=',inst)
-                  this.pageSizes.push(i);
-                  i += 5;
-                }
+        for (let i = 5; i <= inst.totalItems;){
+          this.pageSizes.push(i);
+          i += 5;
+      }
+        this.service.setItemsPerPage(this.id, this.itemsPerPage);
         this.updatePageLinks();
     }
 
@@ -64,9 +65,11 @@ export class PaginationDirective {
         this.changeSub.unsubscribe();
     }
   pageSizeChanged(event) {
-        inst.itemsPerPage = event;
-    this.service.setItemsPerPage(this.id,event);
-           this.updatePageLinks();
+
+    this.service.setItemsPerPage(this.id, event);
+    this.setCurrent(1);
+
+    this.updatePageLinks();
 
 }
     /**
@@ -130,14 +133,17 @@ export class PaginationDirective {
         return this.service.getInstance(this.id).totalItems;
     }
  getStartIndex(): number {
-  const inst = this.service.getInstance(this.id);
-  return (inst.itemsPerPage * (inst.currentPage - 1)) + 1;
+   const inst = this.service.getInstance(this.id);
+   if (inst.totalItems < ((inst.itemsPerPage * (inst.currentPage - 1)) + 1)) {
+     this.setCurrent(1);
+   }
+      return (inst.itemsPerPage * (inst.currentPage - 1)) + 1;
   }
 
   getEndIndex(): number {
     const inst = this.service.getInstance(this.id);
-    const end=(inst.itemsPerPage * inst.currentPage)
-    if (inst.totalItems<end) {
+    const end = (inst.itemsPerPage * inst.currentPage);
+    if (inst.totalItems < end) {
       return inst.totalItems;
     }
     return end;
