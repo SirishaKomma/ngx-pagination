@@ -1,0 +1,116 @@
+.show-label {
+  margin-right: 0.25rem;
+}
+.no-padding {
+  padding: 0;
+}
+.select-box {
+  border: 1px solid #333333b0;
+  color: #333333b0;
+  border-radius: 4px;
+  opacity: 1;
+}
+.entries-label {
+  margin-left: 0.25rem;
+}
+.ngx-pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 0;
+  margin-bottom: 1rem;
+}
+.ngx-pagination::before,
+.ngx-pagination::after {
+  display: table;
+}
+.ngx-pagination::after {
+  clear: both;
+}
+
+.ngx-pagination li {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  margin-right: 0.0625rem;
+  border-radius: 0;
+}
+.ngx-pagination li {
+  display: inline-block;
+}
+.ngx-pagination a,
+.ngx-pagination button {
+  display: block;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 0;
+}
+.ngx-pagination a:hover,
+.ngx-pagination button:hover {
+  background: #e6e6e6;
+}
+.ngx-pagination .current {
+  padding: 0.1875rem 0.625rem;
+  background: #2199e8;
+  color: #fefefe;
+  cursor: default;
+}
+.ngx-pagination .disabled {
+  padding: 0.1875rem 0.625rem;
+  color: #cacaca;
+  cursor: default;
+}
+.ngx-pagination .disabled:hover {
+  background: transparent;
+}
+.ngx-pagination a,
+.ngx-pagination button {
+  cursor: pointer;
+}
+.ngx-pagination .pagination-previous a::before,
+.ngx-pagination .pagination-previous.disabled::before {
+  content: "«";
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+.ngx-pagination .pagination-next a::after,
+.ngx-pagination .pagination-next.disabled::after {
+  content: "»";
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+.ngx-pagination .show-for-sr {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+.ngx-pagination .small-screen {
+  display: none;
+}
+@media screen and (max-width: 601px) {
+  .ngx-pagination.responsive .small-screen {
+    display: inline-block;
+  }
+  .ngx-pagination.responsive
+    li:not(.small-screen):not(.pagination-previous):not(.pagination-next) {
+    display: none;
+  }
+}
+@media only screen and (max-width: 1023px) {
+  .pagination-font {
+    font-size: 14px !important;
+    color: #2e384d !important;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1439px) {
+  .pagination-font {
+    font-size: 16px !important;
+    color: #2e384d;
+  }
+}
+@media only screen and (min-width: 1440px) and (max-width: 2559px) {
+  .pagination-font {
+    font-size: 18px !important;
+    color: #2e384d;
+  }
+}

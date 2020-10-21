@@ -1,5 +1,4 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation} from '@angular/core'
-import {DEFAULT_TEMPLATE, DEFAULT_STYLES} from './template';
 
 function coerceToBoolean(input: string | boolean): boolean {
     return !!input && input !== 'false';
@@ -10,15 +9,21 @@ function coerceToBoolean(input: string | boolean): boolean {
  */
 @Component({
     selector: 'pagination-controls',
-    template: DEFAULT_TEMPLATE,
-    styles: [DEFAULT_STYLES],
+    templateUrl: './pagination.component.html' ,
+    styleUrls: ['./pagination.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
 export class PaginationComponent {
 
     @Input() id: string;
-    @Input() maxSize: number = 7;
+  @Input() maxSize: number = 7;
+  @Input() background = '#2199e8';
+  @Input() color = '#fefefe';
+  public currentCss: any = {
+    background: this.background,
+    color: this.color
+  };
     @Input()
     get directionLinks(): boolean {
         return this._directionLinks;
@@ -51,5 +56,6 @@ export class PaginationComponent {
 
     private _directionLinks: boolean = true;
     private _autoHide: boolean = false;
-    private _responsive: boolean = false;
+  private _responsive: boolean = false;
+
 }
