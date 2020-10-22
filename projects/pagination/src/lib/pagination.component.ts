@@ -8,7 +8,7 @@ function coerceToBoolean(input: string | boolean): boolean {
  * The default pagination controls component. Actually just a default implementation of a custom template.
  */
 @Component({
-    selector: 'pagination-controls',
+    selector: 'paging-controls',
     templateUrl: './pagination.component.html' ,
     styleUrls: ['./pagination.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
