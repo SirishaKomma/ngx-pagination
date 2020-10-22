@@ -18,9 +18,7 @@ export class PaginationComponent {
 
     @Input() id: string;
   @Input() maxSize: number = 7;
-  @Input() background = '#2199e8';
-  @Input() color = '#fefefe';
-  public currentCss: any = {
+   public currentCss: any = {
     background: this.background,
     color: this.color
   };

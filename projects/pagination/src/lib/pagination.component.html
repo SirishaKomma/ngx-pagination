@@ -58,7 +58,7 @@
         <li class="small-screen pagination-font">
           {{ p.getCurrent() }} / {{ p.getLastPage() }}
         </li>
-        <li [ngStyle]="{'color':p.getCurrent() === page.value?color:null,'background-color':p.getCurrent() === page.value?background:null}"
+        <li
 class="pagination-font"
         [class.current]="p.getCurrent() === page.value"
           [class.ellipsis]="page.label === '...'"
